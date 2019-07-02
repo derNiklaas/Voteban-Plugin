@@ -67,6 +67,10 @@ class VotebanImpl(manager: PluginManager) extends PluginImpl(manager) {
         var splits = message.getMessage.split(" ")
         if (splits.length == 2) {
           val username = splits(1)
+          if(message.getAuthor.getDisplayName == username.toLowerCase) {
+            twitchChatOutput.get.sendChatMessage(s"$username wants to ban him-/herself BibleThump")
+            return
+          }
           var banReason = getRandomBanReason
           banReason = banReason.replace("$user", username)
           twitchChatOutput.get.sendChatMessage(s"${message.getAuthor.getDisplayName} banned $username. Reason: $banReason")
