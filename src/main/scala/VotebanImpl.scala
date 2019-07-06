@@ -14,31 +14,32 @@ class VotebanImpl(manager: PluginManager) extends PluginImpl(manager) {
   private var banReasons: Array[String] = Array("YOUR BANNED")
 
   override def setup(): Unit = {
-    if(!fileOutput.get.exists("voteban/")){
+    if (!fileOutput.get.exists("voteban/")) {
       fileOutput.get.createDirectory("voteban")
-      val defaultBanMessages = """You're Out!
-                  |You'll NOT be back!
-                  |Haha rip lol
-                  |Game Over
-                  |You're not allowed to exist anymore
-                  |The ban is a lie
-                  |No u
-                  |The ban hammer has spoken!
-                  |Flying is not enabled on this server!
-                  |I wish I could ban you more than once
-                  |I am the Law
-                  |Not even a kiss from a prince will bring you back
-                  |See you later, alligator!
-                  |User in your channel was banned from the server!
-                  |An apple a day keeps $user away""".stripMargin
+      val defaultBanMessages =
+        """You're Out!
+          |You'll NOT be back!
+          |Haha rip lol
+          |Game Over
+          |You're not allowed to exist anymore
+          |The ban is a lie
+          |No u
+          |The ban hammer has spoken!
+          |Flying is not enabled on this server!
+          |I wish I could ban you more than once
+          |I am the Law
+          |Not even a kiss from a prince will bring you back
+          |See you later, alligator!
+          |User in your channel was banned from the server!
+          |An apple a day keeps $user away""".stripMargin
       val defaultConfig = "derniklaas"
       fileOutput.get.saveFile(defaultBanMessages, "voteban/banmessages.txt")
-      fileOutput.get.saveFile(defaultConfig,"voteban/channel.txt")
+      fileOutput.get.saveFile(defaultConfig, "voteban/channel.txt")
     }
     val channel = fileInput.get.getFile("voteban/channel.txt").get.toLowerCase()
     twitchChatInput.get().setChannel(channel)
     twitchChatOutput.get().setChannel(channel)
-    twitchChatInput.get().registerMessageHandler(msg => messageHandler(msg))
+    twitchChatInput.get().registerChatMessageReceiveEventHandler(msg => messageHandler(msg.getMessage))
     if (fileOutput.get.exists("voteban/banmessages.txt")) {
       val reasons = fileInput.get.getFile("voteban/banmessages.txt").get
       banReasons = reasons.split("\n")
@@ -67,7 +68,7 @@ class VotebanImpl(manager: PluginManager) extends PluginImpl(manager) {
         var splits = message.getMessage.split(" ")
         if (splits.length == 2) {
           val username = splits(1)
-          if(message.getAuthor.getDisplayName == username.toLowerCase) {
+          if (message.getAuthor.getDisplayName == username.toLowerCase) {
             twitchChatOutput.get.sendChatMessage(s"$username wants to ban him-/herself BibleThump")
             return
           }
