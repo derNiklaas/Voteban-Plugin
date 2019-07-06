@@ -26,6 +26,7 @@ There is also a file where you can add or remove ban messages. Note: ```$user```
 
 # Commands
 ```!voteban <User>``` - Votebans a user
+
 ```!voteban <User> <Reason>``` - Votebans a user with a specific reason
 
 # Note
