@@ -60,7 +60,7 @@ class VotebanImpl(manager: PluginManager) extends PluginImpl(manager) {
     }
   }
 
-  def handleCommand(message: TwitchChatMessage): Unit = {
+  private def handleCommand(message: TwitchChatMessage): Unit = {
     var msg = message.getMessage
     msg = msg.splitAt(1)._2
     msg.split(" ")(0).toLowerCase() match {
@@ -74,6 +74,19 @@ class VotebanImpl(manager: PluginManager) extends PluginImpl(manager) {
           }
           var banReason = getRandomBanReason
           banReason = banReason.replace("$user", username)
+          twitchChatOutput.get.sendChatMessage(s"${message.getAuthor.getDisplayName} banned $username. Reason: $banReason")
+        } else if (splits.length >= 3) {
+          val username = splits(1)
+          if (message.getAuthor.getDisplayName == username.toLowerCase) {
+            twitchChatOutput.get.sendChatMessage(s"$username wants to ban him-/herself BibleThump")
+            return
+          }
+          var banReason = splits(2)
+          if (splits.length >= 4) {
+            for (i <- 3 until splits.length) {
+              banReason = banReason + " " + splits(i)
+            }
+          }
           twitchChatOutput.get.sendChatMessage(s"${message.getAuthor.getDisplayName} banned $username. Reason: $banReason")
         }
     }
