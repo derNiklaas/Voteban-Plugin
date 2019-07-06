@@ -26,6 +26,7 @@ There is also a file where you can add or remove ban messages. Note: ```$user```
 
 # Commands
 ```!voteban <User>``` - Votebans a user
+```!voteban <User> <Reason>``` - Votebans a user with a specific reason
 
 # Note
 This plugin will **NOT** ban or timeout any of your twitch users. This plugin is only ment to have a little bit of fun! 
