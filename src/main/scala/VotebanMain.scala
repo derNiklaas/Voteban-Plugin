@@ -8,7 +8,7 @@ class VotebanMain extends Pluggable{
 
   override def getDescription: String = "The best Voteban bot around this city!"
 
-  override def getMajorAPIVersion: Int = 1
+  override def getMajorAPIVersion: Int = 2
 
   override def getMinorAPIVersion: Int = 0
 
