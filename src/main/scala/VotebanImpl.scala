@@ -1,6 +1,7 @@
 import org.codeoverflow.chatoverflow.api.io.dto.chat.twitch.TwitchChatMessage
 import org.codeoverflow.chatoverflow.api.plugin.{PluginImpl, PluginManager}
 
+import scala.io.Source
 import scala.util.Random
 
 class VotebanImpl(manager: PluginManager) extends PluginImpl(manager) {
@@ -16,22 +17,7 @@ class VotebanImpl(manager: PluginManager) extends PluginImpl(manager) {
   override def setup(): Unit = {
     if (!fileOutput.get.exists("voteban/")) {
       fileOutput.get.createDirectory("voteban")
-      val defaultBanMessages =
-        """You're Out!
-          |You'll NOT be back!
-          |Haha rip lol
-          |Game Over
-          |You're not allowed to exist anymore
-          |The ban is a lie
-          |No u
-          |The ban hammer has spoken!
-          |Flying is not enabled on this server!
-          |I wish I could ban you more than once
-          |I am the Law
-          |Not even a kiss from a prince will bring you back
-          |See you later, alligator!
-          |User in your channel was banned from the server!
-          |An apple a day keeps $user away""".stripMargin
+      val defaultBanMessages = Source.fromInputStream(getClass.getResourceAsStream("/banmessages.txt"), "UTF8").mkString
       val defaultConfig = "derniklaas"
       fileOutput.get.saveFile(defaultBanMessages, "voteban/banmessages.txt")
       fileOutput.get.saveFile(defaultConfig, "voteban/channel.txt")
