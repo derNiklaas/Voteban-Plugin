@@ -1,4 +1,4 @@
 // GENERATED FILE USING THE CHAT OVERFLOW PLUGIN FRAMEWORK
 
 name := "voteban"
-version := "0.1"
+version := "1.0"
