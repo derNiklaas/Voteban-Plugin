@@ -73,6 +73,7 @@ class VotebanImpl(manager: PluginManager) extends PluginImpl(manager) {
               banReason = banReason + " " + splits(i)
             }
           }
+          banReason = banReason.replace("$user", username)
           twitchChatOutput.get.sendChatMessage(s"${message.getAuthor.getDisplayName} banned $username. Reason: $banReason")
         }
     }
