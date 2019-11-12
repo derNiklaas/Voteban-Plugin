@@ -4,7 +4,7 @@ import org.codeoverflow.chatoverflow.api.plugin.{PluginImpl, PluginManager}
 import scala.io.Source
 import scala.util.Random
 
-class VotebanImpl(manager: PluginManager) extends PluginImpl(manager) {
+class VotebanPlugin(manager: PluginManager) extends PluginImpl(manager) {
 
   private val twitchChatInput = require.input.twitchChat("twitchIn", "Twitch Input", false)
   private val twitchChatOutput = require.output.twitchChat("twitchOut", "Twitch Output", false)
@@ -12,19 +12,18 @@ class VotebanImpl(manager: PluginManager) extends PluginImpl(manager) {
   private val fileInput = require.input.file("fileIn", "File Input", false)
   private val fileOutput = require.output.file("fileOut", "File Output", false)
 
+  private val channel = require.parameter.stringParameter("twitchChannel", "Please select a twitch Channel", false)
+
   private var banReasons: Array[String] = Array("YOUR BANNED")
 
   override def setup(): Unit = {
     if (!fileOutput.get.exists("voteban/")) {
       fileOutput.get.createDirectory("voteban")
       val defaultBanMessages = Source.fromInputStream(getClass.getResourceAsStream("/banmessages.txt"), "UTF8").mkString
-      val defaultConfig = "derniklaas"
       fileOutput.get.saveFile(defaultBanMessages, "voteban/banmessages.txt")
-      fileOutput.get.saveFile(defaultConfig, "voteban/channel.txt")
     }
-    val channel = fileInput.get.getFile("voteban/channel.txt").get.toLowerCase()
-    twitchChatInput.get().setChannel(channel)
-    twitchChatOutput.get().setChannel(channel)
+    twitchChatInput.get().setChannel(channel.get.get.toLowerCase)
+    twitchChatOutput.get().setChannel(channel.get.get.toLowerCase)
     twitchChatInput.get().registerChatMessageReceiveEventHandler(msg => messageHandler(msg.getMessage))
     if (fileOutput.get.exists("voteban/banmessages.txt")) {
       val reasons = fileInput.get.getFile("voteban/banmessages.txt").get

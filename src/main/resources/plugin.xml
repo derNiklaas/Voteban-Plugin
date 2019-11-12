@@ -1,0 +1,14 @@
+<plugin>
+    <name>voteban</name>
+    <author>derNiklaas</author>
+    <description>Voteban plugin for Twitch Chat.</description>
+    <api>
+        <major>3</major>
+        <minor>0</minor>
+    </api>
+    <version>1.1.0</version>
+    <website>https://github.com/derNiklaas/Voteban-Plugin</website>
+    <sourceRepo>https://github.com/derNiklaas/Voteban-Plugin</sourceRepo>
+    <bugtracker>https://github.com/derNiklaas/Voteban-Plugin/issues</bugtracker>
+    <license>EPL-2.0</license>
+</plugin>
